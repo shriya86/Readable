@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadAble - Accessible Reading for All</title>
+    <meta name="description" content="A lightweight, browser-based web tool that improves reading accessibility for neurodiverse and visually impaired learners.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'><path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z'/></svg>">
+</head>
+<body class="light-theme">
+    <header role="banner">
+        <div class="container">
+            <h1>ReadAble</h1>
+            <p class="tagline">Accessible Reading for All</p>
+        </div>
+    </header>
+
+    <main role="main" class="container">
+        <!-- Accessibility Toolbar -->
+        <section class="toolbar" role="toolbar" aria-label="Reading accessibility controls">
+            <h2 class="sr-only">Accessibility Settings</h2>
+            
+            <div class="toolbar-group">
+                <label for="fontSelect" class="toolbar-label">Font:</label>
+                <select id="fontSelect" class="toolbar-control" aria-label="Select font family">
+                    <option value="'OpenDyslexic', sans-serif">OpenDyslexic</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                </select>
+            </div>
+
+            <div class="toolbar-group">
+                <label for="themeSelect" class="toolbar-label">Theme:</label>
+                <select id="themeSelect" class="toolbar-control" aria-label="Select color theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="sepia">Sepia</option>
+                </select>
+            </div>
+
+            <div class="toolbar-group">
+                <label for="fontSizeSlider" class="toolbar-label">Font Size:</label>
+                <input type="range" id="fontSizeSlider" class="toolbar-control" min="14" max="28" value="18" aria-label="Adjust font size">
+                <span id="fontSizeValue" class="toolbar-value">18px</span>
+            </div>
+
+            <div class="toolbar-group">
+                <label for="spacingToggle" class="toolbar-label">Spacing:</label>
+                <button id="spacingToggle" class="toolbar-button" aria-pressed="false" aria-label="Toggle wide line spacing">
+                    <span class="button-text">Normal</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Text Input Area -->
+        <section class="text-input-section">
+            <div class="input-container">
+                <label for="textInput" class="input-label">Enter or paste your text here:</label>
+                <textarea 
+                    id="textInput" 
+                    class="text-input" 
+                    placeholder="Paste your text here, or use the file upload below..."
+                    aria-label="Text input area"
+                    rows="10"
+                ></textarea>
+                
+                <!-- File Upload -->
+                <div class="file-upload-container">
+                    <input type="file" id="fileUpload" accept=".txt" class="file-input" aria-label="Upload text file">
+                    <label for="fileUpload" class="file-upload-label">
+                        📁 Upload .txt file
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Text Display Area -->
+        <section class="text-display-section">
+            <h2 class="sr-only">Formatted Text Display</h2>
+            <div id="textDisplay" class="text-display" aria-live="polite" aria-label="Formatted text display">
+                <p class="placeholder-text">Your formatted text will appear here...</p>
+            </div>
+        </section>
+
+        <!-- Text-to-Speech Controls -->
+        <section class="tts-section">
+            <h2 class="sr-only">Text-to-Speech Controls</h2>
+            <div class="tts-controls" role="group" aria-label="Text-to-Speech controls">
+                <button id="playButton" class="tts-button" aria-label="Play text aloud">
+                    ▶️ Play
+                </button>
+                <button id="pauseButton" class="tts-button" aria-label="Pause speech">
+                    ⏸️ Pause
+                </button>
+                <button id="stopButton" class="tts-button" aria-label="Stop speech">
+                    ⏹️ Stop
+                </button>
+            </div>
+            
+            <div class="tts-status" id="ttsStatus" aria-live="polite" aria-label="Speech status">
+                Ready to speak
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="accessibility-statement">
+                    <h3>Accessibility Commitment</h3>
+                    <p>ReadAble is designed to meet WCAG 2.1 accessibility guidelines. We believe reading should be accessible to everyone, regardless of how they process information.</p>
+                </div>
+                
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <a href="about.html" class="footer-link">About ReadAble</a>
+                    <a href="#" class="footer-link" onclick="showKeyboardShortcuts()">Keyboard Shortcuts</a>
+                </nav>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 ReadAble. Built with HTML5, CSS3, and Vanilla JavaScript.</p>
+                <p>Uses Web Speech API for text-to-speech functionality.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="keyboardShortcutsModal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Keyboard Shortcuts</h3>
+                <button class="modal-close" onclick="hideKeyboardShortcuts()" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li><kbd>Ctrl</kbd> + <kbd>Space</kbd> - Play/Pause speech</li>
+                    <li><kbd>Ctrl</kbd> + <kbd>S</kbd> - Stop speech</li>
+                    <li><kbd>Ctrl</kbd> + <kbd>+</kbd> - Increase font size</li>
+                    <li><kbd>Ctrl</kbd> + <kbd>-</kbd> - Decrease font size</li>
+                    <li><kbd>Tab</kbd> - Navigate between controls</li>
+                    <li><kbd>Esc</kbd> - Close modal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
